@@ -1,0 +1,31 @@
+﻿@model DVL_UODSA.WebUI.Models.SortedListViewModel
+@{
+    ViewBag.Title = "View Sorted List";
+}
+
+<style>
+    .ListItemImage {
+        width: 150px;
+        height: 200px;
+    }
+
+    .ViewChangeImg {
+        width: 50px;
+        height: 50px;
+    }
+</style>
+
+<div style="margin-top: 20px; margin-bottom: 20px">
+    @Html.Partial("SortedListViewInMainView", Model)
+</div>
+
+<div id="listItemsDiv" ng-controller="viewListController">
+    <img class="ViewChangeImg" style="float: right" ng-src="{{ gridView == true ? '../../Assets/Images/listViewImage.png' : '../../Assets/Images/gridViewImage.png' }}" ng-click="changeView()" alt="Choosed Picture" />
+    <div style="clear: both">
+
+    </div>
+    @foreach (var item in Model.Items)
+    {
+        @Html.Partial("SortedListItemView", item)
+    }
+</div>

@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<DVL_UODSA.WebUI.Models.SortedListViewModel>
+@{
+    ViewBag.Title = "Sorted Lists";
+}
+
+
+@*<div class="pull-right">
+        <span class="lead">სირთულის დონე: </span>
+        <div class="btn-group">
+            @Html.ActionLink("ნებისმიერი", "List", new { page = 1, category = Model.CurrentCategory, level = (int?)null }, new { @class = "btn " + (Model.CurrentLevel == null ? "btn-primary" : "btn-default") })
+            @Html.LavelLinks(Model.CurrentLevel != null ? (int)Model.CurrentLevel : 0, x => Url.Action("List", new { page = 1, category = Model.CurrentCategory, level = x }))
+        </div>
+    </div>*@
+@*<br /><br /><br /><br />*@
+
+<br />
+<br />
+
+<div>
+    @foreach (var l in Model)
+    {
+        @Html.Partial("SortedListViewInMainView", l)
+    }
+</div>
+
+@*<div class="btn-group pull-right">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory, level = Model.CurrentLevel }))
+    </div>*@
+

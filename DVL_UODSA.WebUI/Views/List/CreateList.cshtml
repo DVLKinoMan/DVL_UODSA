@@ -1,0 +1,101 @@
+﻿@model DVL_UODSA.WebUI.Models.CreateListViewModel
+
+@{
+    ViewBag.Title = "Creating List";
+}
+
+<style>
+    .ListItemImage {
+        width: 150px;
+        height: 200px;
+    }
+</style>
+
+<div ng-controller="createListController" class="container" style="width: 60%">
+    <div id="List" ng-show="enableCreatingList">
+        <h1>Creating List:</h1>
+        <hr />
+        @Html.DisplayNameFor(m => m.Name)*:
+        <div id="List_NameDiv">
+            <input id="List_Name" class="form-control" ng-model="List.Name" style="max-width:none; width:100%">
+        </div>
+        @Html.DisplayNameFor(m => m.Description):
+        <div id="List_DescriptionDiv" style="margin-top:10px">
+            <textarea class="form-control" id="List_Description" ng-model="List.Description" rows="5" style="max-width:none; width:100%; resize:none"></textarea>
+        </div>
+        @Html.DisplayNameFor(m => m.ItemTypeName)*:
+        <div id="List_ItemTypeNameDiv" style="margin-top:10px">
+            <input id="List_ItemTypeName" class="form-control" ng-model="List.ItemTypeName" style="max-width:none; width:100%">
+        </div>
+        @Html.DisplayNameFor(m => m.IsPrivate)*:
+        <div id="List_IsPrivateDiv" style="margin-top:10px">
+            <select ng-model="List.IsPrivate" class="form-control" style="width:100%; max-width:none" ng-options="p.value as p.text for p in privacyItems">
+                @*<option ng-repeat="p in privacyItems" value="{{p.value}}">{{p.text}}</option>*@
+            </select>
+        </div>
+        <br />
+        <br />
+        <button id="next_Button" name="SubmitButton" class="btn btn-primary pull-right" ng-disabled="disabilityOfNextButton()" ng-click="continueCreatingList()"><i class="glyphicon glyphicon-forward"></i>Next</button>
+    </div>
+
+
+    <div ng-show="enableAddingListItems">
+        <div id="ItemsList">
+            <div ng-repeat="Item in ItemsList">
+                <table class="well" style="width:90%;">
+                    <tr>
+                        <td style="width: 150px">
+                            <div id="Item_ImageDiv" style="width: 150px; margin: 10px">
+                                <img id="Item_Image" ng-src="{{Item.ImageString == null ? '../../Assets/Images/defaultImage.png' : Item.ImageString}}" class="ListItemImage" alt="Choosed Picture" />
+                                <input id="Item_ImageInput_{{Item.ID}}" style="visibility:hidden; width: 100%" type="file" accept="image/x-png,image/gif,image/jpeg" onchange="angular.element(this).scope().changeItemPicture(this)">
+                                <label for="Item_ImageInput_{{Item.ID}}" style="width: 100%" ng-disabled="Item.DisableEdit" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>Change Picture</label>
+                            </div>
+                        </td>
+                        <td valign="top">
+                            <div style="margin: 10px">
+                                <div id="Item_NameDiv">
+                                    <input id="Item_Name" class="form-control" ng-model="Item.Name" ng-disabled="Item.DisableEdit" style="max-width:none; width:100%">
+                                </div>
+                                <div id="Item_DescriptionDiv" style="margin-top:10px">
+                                    <textarea class="form-control" id="Item_Description" ng-model="Item.Description" ng-disabled="Item.DisableEdit" rows="5" style="max-width:none; width:100%; resize:none"></textarea>
+                                </div>
+                            </div>
+                        </td>
+                        <td valign="top">
+                            <table style="margin: 10px">
+                                <tr><td><button id="DeleteItem_Button" style="width:100%" class="btn btn-warning pull-right" ng-click="deleteListItem(Item)"><i class="glyphicon glyphicon-trash"></i>Delete Item</button></td></tr>
+                                <tr><td><button id="EditItem_Button" style="width:100%" class="btn btn-primary pull-right" ng-click="editListItem(Item)"><i class="glyphicon glyphicon-edit"></i>Edit Item</button></td></tr>
+                                <tr><td><button id="SaveItem_Button" style="width:100%" class="btn btn-primary pull-right" ng-disabled="Item.DisableEdit" ng-click="saveListItem(Item)"><i class="glyphicon glyphicon-save"></i>Save Item</button></td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <button id="back_Button" style="margin-bottom:10px; margin-top:10px" name="SubmitButton" class="btn btn-primary pull-left" ng-click="backToCreatingList()"><i class="glyphicon glyphicon-backward"></i> Back</button>
+            <button id="saveList_Button" style="margin-bottom:10px; margin-top:10px" name="SubmitButton" class="btn btn-primary pull-right" ng-click="saveList()" ng-disabled="disabilityOfSaveList()"><i class="glyphicon glyphicon-save"></i>Save List</button>
+        </div>
+
+        <div id="NewItemDiv" style="clear: both;">
+            <hr />
+            <div style="float: left; width: 150px; margin-top: 10px; margin-bottom: 10px">
+                <div id="NewItem_ImageDiv">
+                    <img id="NewItem_Image" ng-src="{{NewItem.ImageString}}" alt="Choosed Picture" class="ListItemImage" />
+                    <input id="NewItem_ImageInput" style="visibility:hidden;" type="file" accept="image/x-png,image/gif,image/jpeg" onchange="angular.element(this).scope().setItemImage(this, angular.element(this).scope().NewItem);">
+                    <label for="NewItem_ImageInput" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Choose Picture</label>
+                </div>
+            </div>
+
+            <div style="float: left; width: calc(100% - 150px);">
+                <div id="NewItem_NameDiv" style="margin-top:10px; margin-left:10px; margin-bottom:10px;">
+                    @Html.DisplayNameFor(m => m.Items[0].Name)*:
+                    <input id="NewItem_Name" class="form-control" ng-model="NewItem.Name" style="max-width:none; width:100%">
+                </div>
+                <div id="NewItem_DescriptionDiv" style="margin-top:10px; margin-left:10px; margin-bottom:10px;">
+                    @Html.DisplayNameFor(m => m.Items[0].Description):
+                    <textarea class="form-control" id="NewItem__Description" ng-model="NewItem.Description" rows="5" style="max-width:none; width:100%; resize:none"></textarea>
+                </div>
+                <button id="addItemToList_Button" name="SubmitButton" class="btn btn-primary pull-right" ng-click="addItemToList()" ng-disabled="disabilityOfAddItemToList()"><i class="glyphicon glyphicon-plus"></i>Add Item to List</button>
+            </div>
+        </div>
+    </div>
+</div>

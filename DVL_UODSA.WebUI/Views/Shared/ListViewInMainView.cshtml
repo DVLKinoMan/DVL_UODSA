@@ -1,0 +1,49 @@
+﻿@model DVL_UODSA.WebUI.Models.ListViewModel
+
+<div class="well">
+    <table style="width:100%">
+        <tr style="width:100%">
+            <td style="width:100%">
+                <div style="width:100%">
+                    <div class="pull-left">
+                        @Html.ActionLink(@Model.Name, "ViewList", "List", new { listID = Model.ID }, new { @class = "" })
+                    </div>
+
+                    <div class="pull-right">
+                        <table class="pull-right">
+                            <tr>
+                                <td>
+                                    @Html.ActionLink("View Statistics", "ListStatistics", "List", new { listID = Model.ID }, new { @class = "btn btn-primary pull-right" })
+                                </td>
+                                @if (Model.CanSort)
+                                {
+                                    <td>
+                                        @Html.ActionLink("Sort This List", "SortList", "List", new { listID = Model.ID }, new { @class = "btn btn-primary pull-right" })
+                                    </td>
+                                }
+                                @if (Model.CanEdit)
+                                {
+                                    <td>
+                                        @using (Html.BeginForm())
+                                        {
+                                            @Html.Hidden("listID", Model.ID)
+                                            <input type="submit" class="btn btn-warning" value="Delete This List" />
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <span class="lead">@Model.Description</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</div>

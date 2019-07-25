@@ -1,0 +1,34 @@
+﻿@model DVL_UODSA.WebUI.Models.SortedListItemViewModel
+
+<table class="well" ng-style="(gridView && {'float':'left'}) || (listView && {'clear' : 'both'})">
+    <tr>
+        <td style="width: 150px">
+            <div id="item_ImageDiv" style="width: 150px; margin: 10px">
+                @if (Model.ListItem.ImageString != null)
+                {
+                    <img id="item_Image" src="@Model.ListItem.ImageString" class="ListItemImage" alt="Choosed Picture" />
+                }
+                else
+                {
+                    <img id="item_Image" src="../../Assets/Images/defaultImage.png" class="ListItemImage" alt="Choosed Picture" />
+                }
+            </div>
+        </td>
+        <td valign="top">
+            <div style="margin: 10px">
+                <div id="item_NameDiv">
+                    <table>
+                        <tr>
+                            <td>
+                                @Model.SortedNumber) @Model.ListItem.Name
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="item_DescriptionDiv" style="margin-top:10px">
+                    @Html.TextAreaFor(m => m.ListItem.Description, new { @style = "cursor:pointer; max-width:none; width:100%; resize:none;", @rows = "5", @disabled = "disabled", @class = "form-control" })
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

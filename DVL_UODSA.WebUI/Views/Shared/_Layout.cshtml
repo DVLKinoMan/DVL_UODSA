@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - DVL Application</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../ProjectIcon.png" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="~/Scripts/LinqToJavascript.js"></script>
+
+    <script src="~/Assets/Angular/DVL_UODSA_App.js"></script>
+
+    <script src="~/Assets/Angular/Controllers/createList.controller.js"></script>
+    <script src="~/Assets/Angular/Controllers/sortList.controller.js"></script>
+    <script src="~/Assets/Angular/Controllers/viewList.controller.js"></script>
+</head>
+<body ng-app="DVL_UODSA_App">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Main", "Index", "List", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Lists", "Index", "List")</li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("My Sorted Lists", "MySortedLists", "List")</li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.Partial("_LoginPartial")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <div style="clear: both">
+
+        </div>
+        <hr />
+        <footer>
+            <center>
+                <p>&copy; @DateTime.Now.Year - DVL Application</p>
+            </center>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

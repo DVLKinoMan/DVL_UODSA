@@ -1,0 +1,1 @@
+﻿var app = angular.module("DVL_UODSA_App", []);

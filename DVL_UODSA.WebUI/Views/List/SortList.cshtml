@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Sorting List";
+}
+
+<style>
+    .ListItemImage {
+        width: 150px;
+        height: 200px;
+    }
+
+    .ComparedImage {
+        width: 100%;
+        height: 300px;
+    }
+</style>
+
+<div ng-controller="sortListController" ng-init="init(@ViewBag.listID)" class="container">
+    <div id="sortingListDiv" ng-show="enableSortingList" style="width:60%;">
+        <br />
+        <br />
+        <div ng-repeat="item in sortedList">
+            <table class="well">
+                <tr>
+                    <td style="width: 150px">
+                        <div id="item_ImageDiv" style="width: 150px; margin: 10px">
+                            <img id="item_Image" ng-src="{{item.ImageString == null ? '../../Assets/Images/defaultImage.png' : item.ImageString}}" class="ListItemImage" alt="Choosed Picture" />
+                        </div>
+                    </td>
+                    <td valign="top">
+                        <div style="margin: 10px">
+                            <div id="item_NameDiv">
+                                <table>
+                                    <tr>
+                                        <td><h4>{{item.sortedNumber + ". "}}</h4></td>
+                                        <td>
+                                            <input id="item_Name" class="form-control" ng-model="item.Name" ng-disabled="true" style="max-width:none; width:100%; cursor:pointer">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="item_DescriptionDiv" style="margin-top:10px">
+                                <textarea class="form-control" id="item_Description" ng-model="item.Description" ng-disabled="true" rows="5" style="max-width:none; width:100%; resize:none; cursor:pointer"></textarea>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        @if (Request.IsAuthenticated)
+        {
+            <button id="saveSortedList_Button" name="SubmitButton" class="btn btn-primary pull-right" ng-click="saveSortedList()"><i class="glyphicon glyphicon-save"></i>Save Sorted List</button>
+        }
+    </div>
+    <div id="twoItemsDiv" ng-show="enableTwoItems">
+        <div class="alert alert-info" style="margin-top:10px">
+            Make sure authorize! (Not authorized users can not save sorted list)
+        </div>
+        <div style="float:left; width: 40%" ng-click="firstItemClick()">
+            <table class="well">
+                <tr>
+                    <td style="width: 50%">
+                        <div id="Item_ImageDiv" style="width: 100%; margin: 10px">
+                            <img id="Item_Image" ng-src="{{firstList[selectedFirstListIndex].ImageString == null ? '../../Assets/Images/defaultImage.png' : firstList[selectedFirstListIndex].ImageString}}" class="ComparedImage" alt="Choosed Picture" />
+                        </div>
+                    </td>
+                    <td valign="top">
+                        <div style="margin: 10px">
+                            <div id="Item_NameDiv">
+                                <input id="Item_Name" class="form-control" ng-model="firstList[selectedFirstListIndex].Name" ng-disabled="true" style="max-width:none; width:100%">
+                            </div>
+                            <div id="Item_DescriptionDiv" style="margin-top:10px">
+                                <textarea class="form-control" id="Item_Description" ng-model="firstList[selectedFirstListIndex].Description" ng-disabled="true" rows="5" style="max-width:none; width:100%; resize:none"></textarea>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="float:left;margin-left:150px; width: 40%" ng-click="secondItemClick()">
+            <table class="well">
+                <tr>
+                    <td style="width: 50%">
+                        <div id="Item_ImageDiv" style="width: 100%; margin: 10px">
+                            <img id="Item_Image" ng-src="{{secondList[selectedSecondListIndex].ImageString == null ? '../../Assets/Images/defaultImage.png' : secondList[selectedSecondListIndex].ImageString}}" class="ComparedImage" alt="Choosed Picture" />
+                        </div>
+                    </td>
+                    <td valign="top">
+                        <div style="margin: 10px">
+                            <div id="Item_NameDiv">
+                                <input id="Item_Name" class="form-control" ng-model="secondList[selectedSecondListIndex].Name" ng-disabled="true" style="max-width:none; width:100%">
+                            </div>
+                            <div id="Item_DescriptionDiv" style="margin-top:10px">
+                                <textarea class="form-control" id="Item_Description" ng-model="secondList[selectedSecondListIndex].Description" ng-disabled="true" rows="5" style="max-width:none; width:100%; resize:none"></textarea>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
