@@ -62,21 +62,37 @@
         });
     };
 
-    $scope.setItemImage = function (input, Item) {
+   $scope.setItemImage = function (input, Item) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
+            var currIndex = 0;
+            var arr = [];
+            for (var i = 0; i < input.files.length; i++) {
+                var reader = new FileReader();
 
-            reader.onload = function (e) {
-                //$('#NewItem_Image').attr('src', e.target.result);
-                //$scope.NewItem.Image = e.target.result;
-                $scope.$apply(function () {
-                    Item.ImageString = e.target.result;
-                });
-            };
+                arr.push(input.files[i].name);
+                reader.onload = function(e) {
+                    //$('#NewItem_Image').attr('src', e.target.result);
+                    //$scope.NewItem.Image = e.target.result;
 
-            reader.readAsDataURL(input.files[0]);
+                    $scope.$apply(function() {
+                        $scope.NewItem.ImageString = e.target.result;
+                        var str = arr[currIndex++];
+                        $scope.NewItem.Name = str.substr(0, str.lastIndexOf('.'));
+                        $scope.addItemToList();
+                    });
+                };
+
+                reader.readAsDataURL(input.files[i]);
+            }
         }
     };
+
+    $scope.updateMultiple = function() {
+        var multiCBox = document.getElementById("multi");
+        var fileInput = document.getElementById("NewItem_ImageInput");
+
+        fileInput.multiple = multiCBox.checked;
+    }
 
     $scope.changeItemPicture = function (input) {
         var item = $scope.getItemByID($scope.getIDFromInput(input));
