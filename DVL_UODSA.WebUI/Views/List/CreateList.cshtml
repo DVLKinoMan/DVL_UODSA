@@ -79,8 +79,10 @@
             <hr />
             <div style="float: left; width: 150px; margin-top: 10px; margin-bottom: 10px">
                 <div id="NewItem_ImageDiv">
-                    <img id="NewItem_Image" ng-src="{{NewItem.ImageString}}" alt="Choosed Picture" class="ListItemImage" />
-                    <input id="NewItem_ImageInput" style="visibility:hidden;" type="file" accept="image/x-png,image/gif,image/jpeg" onchange="angular.element(this).scope().setItemImage(this, angular.element(this).scope().NewItem);">
+                    <input id="multi" type="checkbox" ng-click="updateMultiple()"/>Allow multiple file selection
+                    <br/><br/>
+                    <img id="NewItem_Image" ng-src="{{NewItem.ImageString}}" alt="Choosed Picture" class="ListItemImage"/>
+                    <input id="NewItem_ImageInput" style="visibility: hidden;" type="file" accept="image/x-png,image/gif,image/jpeg" onchange="angular.element(this).scope().setItemImage(this, angular.element(this).scope().NewItem);">
                     <label for="NewItem_ImageInput" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Choose Picture</label>
                 </div>
             </div>
